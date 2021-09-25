@@ -1,7 +1,7 @@
 #############################################
 ## Makefile for avr ave/gcc dudde          ##
-## 28/Jun/2021                             ##
-## made by FATHI MAHDI (Aptex96)           ##
+## 25/Sep/2021                             ##
+## made by FATHI MAHDI (_*_*_*_)           ##
 #############################################
 
 
@@ -15,10 +15,10 @@ MCU = atmega328p
 S_MCU = m328p
 
 # port name
-PORT_NAME = /dev/ttyACM17
+PORT_NAME = /dev/ttyACM0
 
 # clock rate
-CLK=8000000UL
+CLK=1000000UL
 
 # programmer name
 PROGRAMMER = avrisp
@@ -96,13 +96,13 @@ flash:
 #################################################################
 # make all
 
-ALL:
+all:
 	$(COMPILER) -Os -g -DF_CPU=$(CLK) -mmcu=$(MCU) -c $(SRC_MAIN) -o $(TARGET_OBJ)
 	@echo "\nDone compiling!!\n"
 	$(COMPILER) -mmcu=$(MCU) $(TARGET_OBJ) -o $(TARGET)
 	$(AVRCOPY) -O ihex -R .eeprom $(TARGET) $(TARGET_HEX)
 	@echo "\nGenerating hex file....\n"
-	$(AVRDUDE) -F -V -c $(PROGRAMMER) -p $(S_MCU) -P $(PORT_NAME) -b $(BAUDRATE) -U flas:w:$(TARGET_HEX)
+	$(AVRDUDE) -F -V -c $(PROGRAMMER) -p $(S_MCU) -P $(PORT_NAME) -b $(BAUDRATE) -u flas:w:$(TARGET_HEX)
 	@echo "\nDone flasing!!\n"
         	
 #########################################################################################################
