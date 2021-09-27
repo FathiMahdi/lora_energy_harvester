@@ -15,7 +15,7 @@ MCU = atmega328p
 S_MCU = m328p
 
 # port name
-PORT_NAME = /dev/ttyACM1
+PORT_NAME = /dev/ttyACM0
 
 # clock rate
 CLK=1000000UL
@@ -33,17 +33,17 @@ BAUDRATE=19200
 # 2- Source file configuration
 
 #code name
-SRC = blink
+SRC = sensor_low_energy
 # main source files
 SRC_MAIN = $(SRC).c
 # add others if available
-
+SRC_Libs = DHT.c
 # target object file
 TARGET_OBJ = $(SRC).o
 
 # target file name
 
-TARGET = blink
+TARGET = sensor_low_energy
 
 # hex file
 TARGET_HEX = $(TARGET).hex
@@ -100,7 +100,7 @@ flash:
 # make all
 
 all:
-	$(COMPILER) -Os -g -DF_CPU=$(CLK) -mmcu=$(MCU) -c $(SRC_MAIN) -o $(TARGET_OBJ)
+	$(COMPILER) -Os -g -DF_CPU=$(CLK) -mmcu=$(MCU) -o $(TARGET_OBJ) $(SRC_MAIN) $(SRC_Libs)
 	@echo "\nDone compiling!!\n"
 	$(COMPILER) -mmcu=$(MCU) $(TARGET_OBJ) -o $(TARGET)
 	$(AVRCOPY) -O ihex -R .eeprom $(TARGET) $(TARGET_HEX)
